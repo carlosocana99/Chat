@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Messenger</title>
+        <style>
+            *{
+                margin:0;
+                padding:0;
+                box-sizing: border-box;
+                background: black;
+            }
+            body{
+                font:15px Helvetica, Arial;
+                
+            }
+            form{
+                background:rgb(255, 255, 255);
+                padding:3px;
+                position: fixed;
+                bottom: 0;
+                width:100%;
+            }
+            form input{
+                border:0;
+                padding:11px;
+                width:90%;
+                margin-right:.5%;
+                color: blue;
+            }
+            form button{
+                width: 9%;
+                background: rgb(162, 0, 255);
+                border:none;
+                padding:10px;
+            }
+            #messages {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                color: blue;
+            }
+            #messages li{
+                padding: 5px 10px;
+                
+            }
+            #messages li :nth-child(odd){
+                background: rgb(247, 0, 255);
+            }
+            #messages{
+                margin-bottom: 40px;
+            }
+         
+        </style>
+    </head>
+    <body>
+        <ul id="messages"></ul>
+       <form action="">
+            <input id="m" class="form-control">
+            <button>Enviar</button>
+        </div>
+        </form>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    </body>
+        <script>
+            $(function() {
+                var socket = io();
+                $('form').submit(function(){
+                    socket.emit('chat message', $('#m').val());
+                    $('#m').val('');
+                    return false;
+                });
+                socket.on('chat message', function(msg) {
+                    $('#messages').append($('<li>').text(msg));
+                    window.scrollTo(0, document.body.scrollHeight);
+                });
+            });
+        </script>
+</html>
